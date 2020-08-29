@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .Hm-logo{
     text-align: center;
     padding: 30px 0;
