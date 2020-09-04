@@ -2,28 +2,16 @@
   <div class="my-star">
       <hm-header>我的收藏</hm-header>
       <div class="list">
-          <div class="item">
+          <div class="item" v-for='item in list' :key='item.id'>
               <div class="info">
-                  <div class="title">林志玲穿透视黑纱裙米兰看秀腹部微隆显孕味</div>
+                  <div class="title">{{item.title}}</div>
                   <div class="user">
-                      <span>火星时报</span>
-                      <span>52跟帖</span>
+                      <span>{{item.user.nickname}}</span>
+                      <span>{{item.comments.length}}跟帖</span>
                   </div>
               </div>
               <div class="img">
-                  <img src="../assets/1.jpg" alt="">
-              </div>
-          </div>
-          <div class="item">
-              <div class="info">
-                  <div class="title">林志玲穿透视黑纱裙米兰看秀腹部微隆显孕味</div>
-                  <div class="user">
-                      <span>火星时报</span>
-                      <span>52跟帖</span>
-                  </div>
-              </div>
-              <div class="img">
-                  <img src="../assets/1.jpg" alt="">
+                  <img :src="$url(item.cover[0].url)" alt="">
               </div>
           </div>
       </div>
@@ -32,7 +20,23 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      list: []
+    }
+  },
+  methods: {
+    async getStarList() {
+      const res = await this.$axios.get('/user_star')
+      const { statusCode, data } = res.data
+      if (statusCode === 200) {
+        this.list = data
+      }
+    }
+  },
+  created() {
+    this.getStarList()
+  }
 }
 </script>
 
