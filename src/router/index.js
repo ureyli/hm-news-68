@@ -6,6 +6,9 @@ import Register from '../views/Register.vue'
 import User from '../views/User.vue'
 import UserEdit from '../views/UserEdit.vue'
 import Demo from '../views/Demo.vue'
+import MyFollow from '../views/MyFollow.vue'
+import MyComment from '../views/MyComment.vue'
+import MyStar from '../views/MyStar.vue'
 
 Vue.use(VueRouter)
 // 全局的把push的异常给处理了
@@ -19,7 +22,10 @@ const routes = [
   { path: '/register', component: Register, name: 'register' },
   { path: '/user', component: User, name: 'user' },
   { path: '/user-edit', component: UserEdit, name: 'user-edit' },
-  { path: '/demo', component: Demo, name: 'demo' }
+  { path: '/demo', component: Demo, name: 'demo' },
+  { path: '/myfollow', component: MyFollow, name: 'myfollow' },
+  { path: '/mycomment', component: MyComment, name: 'mycomment' },
+  { path: '/mystar', component: MyStar, name: 'mystar' }
 ]
 
 const router = new VueRouter({
@@ -50,7 +56,9 @@ router.beforeEach(function(to, from, next) {
   //   next()
   // }
   const token = localStorage.getItem('token')
-  if (to.name !== 'user' || token) {
+  // 需要拦截的所有的页面
+  const authUrls = ['/user', '/user-edit', '/myfollow', '/mycomment', '/mystar']
+  if (!authUrls.includes(to.path) || token) {
     next()
   } else {
     router.push('/login')
